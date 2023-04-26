@@ -6,11 +6,14 @@ var logger = require('morgan');
 const signUpRouter = require('./routes/sign-up')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const models = require('./model/mongoose')
-const loginRouter = require('./routes/log-in') 
+const models = require('./model/mongoose');
+const loginRouter = require('./routes/log-in');
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const { v4: uuidv4 } = require('uuid');
+const dotenv = require('dotenv');
+dotenv.config(); 
 
 var app = express();
 // view engine setup
@@ -32,7 +35,28 @@ app.get("/log-out", (req, res, next) => {
   });
 });
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+
+const maxAge = 1000 * 60 * 60 * 24 // 24 Hours in ms
+  
+  // Using this b/c I was not able to configure postgres session below
+  const memoryStore = new session.MemoryStore();
+  app.use(session({
+      store: memoryStore,
+      name: "sid", // custom session id name default is connect.sid
+      csrfToken: uuidv4(),
+      resave: false,
+      saveUninitialized: false,
+      secret: process.env.SECRET,
+      cookie: {
+        maxAge: maxAge, 
+        httpOnly: true,
+        sameSite: true, // same as 'strict'
+        secure: false //IN_PROD //if production set to secure true else false
+      }
+    }));
+  
+
+// app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
@@ -51,6 +75,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -61,5 +86,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
