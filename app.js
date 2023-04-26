@@ -13,11 +13,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
 var app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 
 passport.use(
   new LocalStrategy(async(username, password, done) => {
@@ -43,16 +41,16 @@ passport.use(
 );
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+done(null, user.id);
 });
 
 passport.deserializeUser(async function(id, done) {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch(err) {
-    done(err);
-  };
+try {
+  const user = await User.findById(id);
+  done(null, user);
+} catch(err) {
+  done(err);
+};
 });
 
 app.use(function(req, res, next) {
@@ -73,17 +71,15 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/sign-up', signUpRouter)
-app.use('/log-in', loginRouter)
+app.use('/sign-up', signUpRouter);
+app.use('/log-in', loginRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
