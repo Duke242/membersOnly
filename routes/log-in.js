@@ -18,9 +18,9 @@ router.get('/', (req, res) => {
 
 // /From passport see passportConfig for local strategy. TODO add option for OAUth?/
 router.post('/', passport.authenticate("local", {
-    successRedirect: "/index",
+    successRedirect: "/",
     failureRedirect: "/log-in",
-    failureFlash: "Invalid username or password"
+    // failureFlash: "Invalid username or password"
   }),
   );
 module.exports = router;
