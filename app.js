@@ -8,9 +8,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const models = require('./model/mongoose');
 const loginRouter = require('./routes/log-in');
+const messagesRouter = require('./routes/messages')
 const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+const initialize = require('./validators/passportConfig')
 const { v4: uuidv4 } = require('uuid');
 const dotenv = require('dotenv');
 dotenv.config(); 
@@ -39,9 +40,9 @@ app.get("/log-out", (req, res, next) => {
 const maxAge = 1000 * 60 * 60 * 24 // 24 Hours in ms
   
   // Using this b/c I was not able to configure postgres session below
-  const memoryStore = new session.MemoryStore();
+  // const memoryStore = new session.MemoryStore();
   app.use(session({
-      store: memoryStore,
+      // store: memoryStore,
       name: "sid", // custom session id name default is connect.sid
       csrfToken: uuidv4(),
       resave: false,
@@ -57,6 +58,7 @@ const maxAge = 1000 * 60 * 60 * 24 // 24 Hours in ms
   
 
 // app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+initialize(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
@@ -65,10 +67,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/sign-up', signUpRouter);
 app.use('/log-in', loginRouter);
+app.use('/messages', messagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

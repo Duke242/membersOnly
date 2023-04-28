@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= locals.title || "Log In"%></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Log In</h1>
+    <form action="/log-in" method="POST">
+      <label for="username">Username</label>
+      <input name="username" placeholder="Username" type="text" />
+      <label for="password">Password</label>
+      <input name="password" id="password" placeholder="Password" type="password" />
+      <button>Submit</button>
+    </form>
+    <a href="sign-up">Sign Up</a>
+  </body>
+</html>

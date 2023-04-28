@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= locals.title || "Log In"%></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>Log In</h1>
-    <form action="/log-in" method="POST">
-      <label for="username">Username</label>
-      <input name="username" placeholder="Username" type="text" />
-      <label for="password">Password</label>
-      <input name="password" id="password" placeholder="Password" type="password" />
-      <button>Submit</button>
-    </form>
-    <a href="sign-up">Sign Up</a>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Message Board</title>
+</head>
+<body>
+  <% if (Array.isArray(messages)) { %>
+    <ul>
+      <% for(let message of messages) { %>
+        <li>
+          <% if (user) { %>
+            <div><%= message.sender.username %></div>
+            <div><%= message.timeStamp %></div>
+          <% } %>
+          <div><%= message.title %></div>
+          <div><%= message.content %></div>
+        </li>
+      <% } %>
+    </ul>
+  <% } %>
+  <%- include('message-form') %>
+  
+</body>
 </html>

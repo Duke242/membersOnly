@@ -14,14 +14,10 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res, next) => {
   const { password, confirmPassword } = req.body
   try {
-    bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-      if (err) {
-        console.log(err); 
-      }
-      else if (password !== confirmPassword) {
-          res.send("Passwords do not match")
-        }
-      else {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10) 
+    if (password !== confirmPassword) {
+      res.send("Passwords do not match")
+    } else {
       console.log(password, confirmPassword)
       setup(mongoose);
       const User = mongoose.model("user");
@@ -33,11 +29,11 @@ router.post("/", async (req, res, next) => {
         password: hashedPassword,
         membershipStatus: "default",
       });
-        await newUser.save();
-        res.redirect("/");
-      }
-    });
+      await newUser.save();
+      res.redirect("/");
+    }
   } catch (err) {
+    res.render('../views/error', {error: err, handler: { url: '/sign-up', link: 'Sign Up' }})
     return next(err);
   }
 });

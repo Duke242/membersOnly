@@ -73,12 +73,13 @@ const User = mongoose.model('user')
       try {
         const user = await User.findById(id);
              // This configures sessions object 
-        const userSession = {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          userId: user.id,
-        }
-        console.log(`This is userSession: ${userSession}`)
+        // const userSession = {
+        //   firstName: user.firstName,
+        //   lastName: user.lastName,
+        //   userId: user.id,
+        // }
+        // console.log(`This is userSession: ${userSession}`)
+        console.log({user})
         done(null, user);
       } catch(err) {
         done(err);

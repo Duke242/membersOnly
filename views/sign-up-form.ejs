@@ -3,20 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title></title>
+  <style>label {display: block}</style>
 </head>
 <body>
   <h1>Sign Up</h1>
   <form action="/sign-up" method="POST">
-    <label for="firstName">First Name</label>
-    <input name="firstName" placeholder="First Name" type="text" />
-    <label for="lastName">Last Name</label>
-    <input name="lastName" placeholder="Last Name" type="text" />
-    <label for="username">Username</label>
-    <input name="username" placeholder="Username" type="text" />
-    <label for="password">Password</label>
-    <input name="password" id="firstPassword" placeholder="password" type="password" />
-    <label for="confirmPassword">Confirm Password</label>
-    <input name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" type="password" />
+    <label>
+      First Name
+      <input name="firstName" placeholder="First Name" required/>
+    </label>
+    <label>
+      Last Name 
+      <input name="lastName" placeholder="Last Name" required/>
+    </label>
+    <label>
+      Username
+      <input name="username" placeholder="Username" required/>
+    </label>
+    <label>
+      Password
+      <input name="password" placeholder="password" type="password" required/>
+    </label>
+    <label>
+      Confirm Password
+      <input name="confirmPassword" placeholder="Confirm Password" type="password" required/>
+    </label>
     <button>Sign Up</button>
   </form>
 </body>
