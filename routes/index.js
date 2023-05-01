@@ -8,8 +8,15 @@ const { setup } = require('../model/mongoose')
 router.get('/', async function(req, res, next) {
   setup(mongoose)
   const Message = mongoose.model('message')
+  const User= mongoose.model('user')
   const messages = await Message.find({})
-  res.render('index', { user: req.user , messages, mongoose, setup });
+  const messagesWithSenderName = messages.map((msg) => {
+    const user = await User.find({_id: req.user})
+    const username = user.username;
+    msg['senderName'] = username;
+    return msg
+  };
+  res.render('index', { messagesWithSenderName });
 });
 
 module.exports = router;
