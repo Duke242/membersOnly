@@ -6,7 +6,6 @@ var logger = require('morgan');
 const signUpRouter = require('./routes/sign-up')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const models = require('./model/mongoose');
 const loginRouter = require('./routes/log-in');
 const messagesRouter = require('./routes/messages')
 const session = require("express-session");
@@ -20,6 +19,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 
 
 app.use(function(req, res, next) {

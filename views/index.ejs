@@ -10,10 +10,10 @@
 <body>
   <% if (Array.isArray(messages)) { %>
     <ul>
-      <% for(let message of messages) { %>
+      <% for (let message in messages) { %>
         <li>
           <% if (user) { %>
-            <div><%= message.sender.username %></div>
+            <div><%=  %></div>
             <div><%= message.timeStamp %></div>
           <% } %>
           <div><%= message.title %></div>
@@ -22,7 +22,17 @@
       <% } %>
     </ul>
   <% } %>
+
+
+  <% messages.forEach(function(message) { %>
+    <p>Title: <%= message.sender %></p>
+    <p>Title: <%= message.title %></p>
+    <p>Message: <%= message.content %></p>
+    <p>Time: <%= message.timeStamp %></p>
+  <% }); %>
+
+
   <%- include('message-form') %>
-  
+   
 </body>
 </html>

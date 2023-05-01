@@ -4,9 +4,6 @@ const { setup } = require("../model/mongoose");
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs')
 
-// const passwordInput = document.getElementById('firstPassword')
-// const confirmPassword = document.getElementById('confirmPassword')
-
 router.get("/", (req, res) => {
   res.render("sign-up-form");
 });
@@ -39,3 +36,4 @@ router.post("/", async (req, res, next) => {
 });
 
 module.exports = router;
+

@@ -8,9 +8,8 @@ const { setup } = require('../model/mongoose')
 router.get('/', async function(req, res, next) {
   setup(mongoose)
   const Message = mongoose.model('message')
-  const messages = Message.find({})
-  console.log({messages})
-  res.render('index', { user: req.user , messages });
+  const messages = await Message.find({})
+  res.render('index', { user: req.user , messages, mongoose, setup });
 });
 
 module.exports = router;
