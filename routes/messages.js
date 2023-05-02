@@ -1,7 +1,6 @@
 const express = require('express')
 const { setup } = require('../model/mongoose')
 const mongoose = require('mongoose')
-const { ObjectId } = require('mongodb')
 const router = express.Router()
 
 router.post('/new', async (req, res) => {

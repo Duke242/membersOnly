@@ -8,8 +8,16 @@ const { setup } = require('../model/mongoose')
 router.get('/', async function(req, res, next) {
   setup(mongoose)
   const Message = mongoose.model('message')
-  const messages = await Message.find({})
-  res.render('index', { user: req.user , messages, mongoose, setup });
+  // Populate the `sender` field with the `username` field from the `User` schema
+  Message.find({}).populate({
+    path: 'sender',
+    select: 'username'
+  }).then((messages) => {
+    console.log(messages)
+    res.render('index', { user: req.user , messages });
+  }).catch((err) => {
+    handleError(err);
+  });
 });
 
 module.exports = router;

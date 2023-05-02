@@ -22,7 +22,8 @@ function setup(mongoose){
       timeStamp: { type: String, required: true },
     })
   );
-  try { const user = mongoose.model('user', UserSchema) } catch (e) {}
+  try { user = mongoose.model('user', UserSchema) } catch (e) {}
   try { mongoose.model('message', MessageSchema) } catch (e) {}
 }
 module.exports = { setup } 
+

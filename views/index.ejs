@@ -13,7 +13,7 @@
       <% for (let message in messages) { %>
         <li>
           <% if (user) { %>
-            <div><%=  %></div>
+            <div><%= message.sender.username %></div>
             <div><%= message.timeStamp %></div>
           <% } %>
           <div><%= message.title %></div>
@@ -25,9 +25,9 @@
 
 
   <% messages.forEach(function(message) { %>
-    <p>Title: <%= message.sender %></p>
+    <p>Sender: <%= message.sender.username %></p>
     <p>Title: <%= message.title %></p>
-    <p>Message: <%= message.content %></p>
+    <p>Message: <%= message.text %></p>
     <p>Time: <%= message.timeStamp %></p>
   <% }); %>
 
