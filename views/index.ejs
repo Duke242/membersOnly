@@ -8,31 +8,32 @@
   <title>Message Board</title>
 </head>
 <body>
-  <% if (Array.isArray(messages)) { %>
-    <ul>
-      <% for (let message in messages) { %>
-        <li>
-          <% if (user) { %>
-            <div><%= message.sender.username %></div>
-            <div><%= message.timeStamp %></div>
-          <% } %>
-          <div><%= message.title %></div>
-          <div><%= message.content %></div>
-        </li>
-      <% } %>
-    </ul>
+ 
+  <ul>
+    <% for (let message of messages) { %>
+      <% let sender = message.sender %>
+      <li>
+        <% if (user) { %>
+          <div><%= sender.username %></div>
+          <div><%= message.timeStamp %></div>
+        <% } %>
+      
+        <p><%= message.title %></p>
+        <p><%= message.text %></p>
+      </li>
+    <% } %>
+  </ul>
+  
+
+  <!-- form(action=`/computers/${computer._id}` method="POST" class="delete")
+  input(type="hidden" name="_method" value="DELETE")
+  input(type="submit" value="Delete") -->
+
+
+  <% if (user) { %>
+    <%- include('message-form') %>
   <% } %>
-
-
-  <% messages.forEach(function(message) { %>
-    <p>Sender: <%= message.sender.username %></p>
-    <p>Title: <%= message.title %></p>
-    <p>Message: <%= message.text %></p>
-    <p>Time: <%= message.timeStamp %></p>
-  <% }); %>
-
-
-  <%- include('message-form') %>
+  
    
 </body>
 </html>

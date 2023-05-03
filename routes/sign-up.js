@@ -18,13 +18,14 @@ router.post("/", async (req, res, next) => {
       console.log(password, confirmPassword)
       setup(mongoose);
       const User = mongoose.model("user");
-      const { firstName, lastName, username } = req.body;
+      const { firstName, lastName, username, checkbox } = req.body;
       const newUser = new User({
         firstName,
         lastName,
         username,
         password: hashedPassword,
         membershipStatus: "default",
+        admin: checkbox === 'on' ? true : false
       });
       await newUser.save();
       res.redirect("/");

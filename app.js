@@ -13,13 +13,23 @@ const passport = require("passport");
 const initialize = require('./validators/passportConfig')
 const { v4: uuidv4 } = require('uuid');
 const dotenv = require('dotenv');
+const methodOverride = require('method-override')
 dotenv.config(); 
 
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: false }));
 
+
+app.use(methodOverride((req, res) => {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}))
 
 
 app.use(function(req, res, next) {
@@ -61,7 +71,6 @@ const maxAge = 1000 * 60 * 60 * 24 // 24 Hours in ms
 initialize(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.urlencoded({ extended: false }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());
